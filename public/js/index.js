@@ -16,16 +16,15 @@ socket.on('newMessage', function (message) {
   jQuery('#messages').append(li);
 });
 
-jQuery('#message-from').on('submit', function (e) {
-  e.preventDefault();
+socket.on('newLocationMessage', function(message) {
+  var li = jQuery('<li></li>');
+  var a = jQuery('<a target="_blank">My current location</a>');
 
-  socket.emit('createMessage', {
-    from: 'User',
-    text: jQuery('[name=message]').val()
-  }, function(data) {
-    console.log(data);
-  })
-});
+  li.text(`${message.from}: `);
+  a.attr('href', message.url);
+  li.append(a);
+  jQuery('#messages').append(li);
+})
 
 var locationButton = jQuery('#send-location');
 locationButton.on('click', function() {
@@ -40,5 +39,16 @@ locationButton.on('click', function() {
     })
   }, function () {
     alert('Unable to fetch location');
+  })
+});
+
+jQuery('#message-from').on('submit', function (e) {
+  e.preventDefault();
+
+  socket.emit('createMessage', {
+    from: 'User',
+    text: jQuery('[name=message]').val()
+  }, function(data) {
+    console.log(data);
   })
 });
