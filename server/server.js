@@ -35,15 +35,15 @@ io.on('connection', (socket) => {
     callback();
   });
 
-  socket.on('createMessage', (message, callback) => {
-    var user = users.getUser(socket.id);
-
-    if (user && isRealString(message.text)) {
-      io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
-    }
-
-    callback();
-  });
+  // socket.on('createMessage', (message, callback) => {
+  //   var user = users.getUser(socket.id);
+  //
+  //   if (user && isRealString(message.text)) {
+  //     io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
+  //   }
+  //
+  //   callback();
+  // });
 
   socket.on('createLocationMessage', (coords) => {
     var user = users.getUser(socket.id);
